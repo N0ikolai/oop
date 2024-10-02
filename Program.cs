@@ -15,7 +15,7 @@
             Console.WriteLine("Enter second num");
             int secondNum = Convert.ToInt32(Console.ReadLine());
 
-            Console.WriteLine($"Before swap : firstNum = {firstNum}, secondNum = {secondNum}");
+            Console.WriteLine($"Before swapped : firstNum = {firstNum}, secondNum = {secondNum}");
             (firstNum, secondNum) = Swap(firstNum, secondNum);
 
             Console.WriteLine($"After swapped : firstNum = {firstNum}, secondNum = {secondNum}");
