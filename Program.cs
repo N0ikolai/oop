@@ -1,10 +1,19 @@
-﻿namespace ConsoleApp1
+﻿using System.Security.Principal;
+
+namespace ConsoleApp1
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            Account account = new Account(AccountType.Current);
+
+            CommantInv invoker = new CommantInv();
+
+            invoker.AddCommand(new CreateAccountCommand(account));
+
+            invoker.ExecuteCommand();
+
         }
     }
 }
