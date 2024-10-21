@@ -8,7 +8,7 @@ public class BankTransaction
 
     public BankTransaction(double amount)
     {
-        TransactionTime = DateTime.Now;
+        TransactionTime = DateTime.Now ;
         Amount = amount;
 
     }

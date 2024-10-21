@@ -1,16 +1,12 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using System.Xml.Linq;
-
-public class Account
+﻿public class Account
 {
     private string id;
     private string name;
     private double balance;
     private AccountType type;
     private GenerationAccountID idGen = new GenerationAccountID();
-   
-    public Account (AccountType type)
+    private Queue<BankTransaction> transactions = new Queue<BankTransaction>();
+    public Account(AccountType type)
     {
         this.type = type;
         string getID = idGen.GenAccountID();
@@ -21,20 +17,52 @@ public class Account
 
     public void Deposit()
     {
-        Console.WriteLine("Do you wanna transfer money on you account?" +
-           " \n Enter 1 to say YES \n Enter any key to say NO");
+        Console.WriteLine("Do you wanna transfer money on you account?");
+        Console.WriteLine("Enter 1 to say YES, or any key to say no");
 
-        string inputString = Console.ReadLine();
         int input;
 
-        if (int.TryParse(inputString, out input))
+        if (int.TryParse(Console.ReadLine(), out input))
         {
             if (input == 1)
             {
                 Console.WriteLine("Enter how much");
-                double amount = Convert.ToDouble(Console.ReadLine());
-                balance += amount;
+                if (double.TryParse(Console.ReadLine(), out double amount))
+                    balance += amount;
+                var transaction = new BankTransaction(amount);
+                transactions.Enqueue(transaction);
                 Console.WriteLine($"balanse id added to {amount}");
+                Console.WriteLine($"{transaction.TransactionTime}");
+            }
+        }
+    }
+
+    public void Withdraw()
+    {
+        Console.WriteLine("How much do ya wanna withdraw?");
+        Console.WriteLine("Enter 1 to say YES, or any key to say no");
+
+        int input;
+
+        if (int.TryParse(Console.ReadLine(), out input))
+        {
+            if (input == 1)
+            {
+                if (double.TryParse(Console.ReadLine(), out double amount))
+                {
+                    if (amount <= balance)
+                    {
+                        balance -= amount;
+                        var transaction = new BankTransaction(amount);
+                        transactions.Enqueue(transaction);
+                        Console.WriteLine(balance);
+                        Console.WriteLine($"{transaction.TransactionTime}");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Cant be done.");
+                    }
+                }
             }
         }
     }
@@ -52,6 +80,7 @@ public class Account
 
         return name;
     }
+
     public void AskUserIfHeWantsToPrintInfo()
     {
         Console.WriteLine("Do you wanna print info on the screen?" +
@@ -76,7 +105,10 @@ public class Account
 
     public void PrintAccountInfo()
     {
-        Console.WriteLine($"Account type : {type},\n Name : {name} ,\n Account id : {id},\n Total balanse : {balance}");
+        Console.WriteLine($"Account type: {type}");
+        Console.WriteLine($"Name: {name}");
+        Console.WriteLine($"Account ID: {id}");
+        Console.WriteLine($"Total balance: {balance}");
     }
 }
 

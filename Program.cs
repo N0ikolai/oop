@@ -6,15 +6,13 @@
         {
             Account account = new Account(AccountType.Current);
 
-            Account account1 = new Account(AccountType.Saving);
-
             account.PrintAccountInfo();
-
-            account1.PrintAccountInfo();
 
             account.CreateName();
 
             account.Deposit();
+
+            account.Withdraw();
 
             account.AskUserIfHeWantsToPrintInfo();
         }
