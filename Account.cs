@@ -52,7 +52,6 @@ public class Account
 
         return name;
     }
-
     public void AskUserIfHeWantsToPrintInfo()
     {
         Console.WriteLine("Do you wanna print info on the screen?" +
