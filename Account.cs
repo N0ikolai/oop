@@ -1,4 +1,4 @@
-﻿public class Account
+﻿public class Account : IDisposable
 {
     private string id;
     private string name;
@@ -6,6 +6,8 @@
     private AccountType type;
     private GenerationAccountID idGen = new GenerationAccountID();
     private Queue<BankTransaction> transactions = new Queue<BankTransaction>();
+    private bool disposed = false;
+
     public Account(AccountType type)
     {
         this.type = type;
@@ -109,6 +111,48 @@
         Console.WriteLine($"Name: {name}");
         Console.WriteLine($"Account ID: {id}");
         Console.WriteLine($"Total balance: {balance}");
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!disposed)
+        {
+            if (disposing)
+            {
+                WriteTransactionsToFile();
+                transactions.Clear();
+            }
+            disposed = true;
+        }
+    }
+    //the way D:\Program\Visual-workspace\oop\bin\Debug\net...
+    public void WriteTransactionsToFile()
+    {
+        string filename = $"transactions_{id}.txt";
+
+        using (StreamWriter writer = new StreamWriter(filename, true))
+        {
+            foreach (var transaction in transactions)
+            {
+                writer.WriteLine($"Name: {name}");
+                writer.WriteLine($"Account type: {type}");
+                writer.WriteLine($"balance: {balance}");
+                writer.WriteLine($"Amount: {transaction.Amount}");
+                writer.WriteLine($"Time: {transaction.TransactionTime}");
+            }
+        }
+        Console.WriteLine($"Done");
+    }
+
+    ~Account()
+    {
+        Dispose(false);
     }
 }
 

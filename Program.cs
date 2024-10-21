@@ -15,6 +15,8 @@
             account.Withdraw();
 
             account.AskUserIfHeWantsToPrintInfo();
+
+            account.Dispose();
         }
     }
 }
