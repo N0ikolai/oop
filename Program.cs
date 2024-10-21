@@ -4,7 +4,15 @@
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            Account account = new Account(AccountType.Current);
+
+            account.PrintAccountInfo();
+
+            account.CreateName();
+
+            account.Deposit();
+
+            account.AskUserIfHeWantsToPrintInfo();
         }
     }
 }
